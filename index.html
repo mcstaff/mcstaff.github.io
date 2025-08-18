@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Minecraft Staff Directory</title>
+  <!-- Tailwind via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Optional: custom role colors */
+    .role-Owner{ background:linear-gradient(90deg,#ef4444,#f59e0b); color:white }
+    .role-CoOwner{ background:#f43f5e; color:white }
+    .role-Manager{ background:#6d28d9; color:white }
+    .role-Admin{ background:#ef4444; color:white }
+    .role-Moderator{ background:#14b8a6; color:white }
+    .role-Helper{ background:#3b82f6; color:white }
+    .role-Developer{ background:#8b5cf6; color:white }
+    .role-Builder{ background:#22c55e; color:white }
+    .role-Media{ background:#f97316; color:white }
+    .role-Staff{ background:#64748b; color:white }
+
+    /* Card polish */
+    .card{ border-radius:1rem; box-shadow:0 10px 18px rgba(0,0,0,.08); }
+  </style>
+</head>
+<body class="min-h-screen bg-slate-100 text-slate-800">
+  <div class="max-w-7xl mx-auto px-4 py-8">
+    <header class="mb-6">
+      <h1 class="text-3xl md:text-4xl font-bold tracking-tight">Staff Directory</h1>
+      <p class="text-slate-600">List staff members across multiple Minecraft servers. Edit the <code>STAFF_DATA</code> section below to customize.</p>
+    </header>
+
+    <!-- Controls -->
+    <section class="mb-6 grid gap-3 md:grid-cols-3">
+      <div>
+        <label class="block text-sm font-medium mb-1">Server</label>
+        <select id="serverFilter" class="w-full rounded-xl border border-slate-300 bg-white px-3 py-2">
+          <!-- options injected by JS -->
+        </select>
+      </div>
+      <div>
+        <label class="block text-sm font-medium mb-1">Role</label>
+        <select id="roleFilter" class="w-full rounded-xl border border-slate-300 bg-white px-3 py-2">
+          <option value="all">All roles</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-sm font-medium mb-1">Search</label>
+        <input id="searchInput" type="text" placeholder="Search by name…" class="w-full rounded-xl border border-slate-300 bg-white px-3 py-2" />
+      </div>
+    </section>
+
+    <!-- Staff grid -->
+    <section id="staffGrid" class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"></section>
+
+    <!-- Footer note -->
+    <footer class="mt-10 text-xs text-slate-500">
+      <p>Tip: to add someone, edit the <code>STAFF_DATA</code> object in this file. You can also toggle <code>showSkins</code>.</p>
+    </footer>
+  </div>
+
+  <!-- ===================== CONFIG / DATA ===================== -->
+  <script>
+    // --- Basic options you can tweak ---
+    const showSkins = true; // set to false to hide avatars
+    const skinService = (username) => `https://mc-heads.net/avatar/${encodeURIComponent(username)}/64`;
+
+    // --- Your servers and staff live here ---
+    // Add/rename servers, roles, and members. Roles are free-form strings.
+    const STAFF_DATA = {
+      servers: [
+        {
+          id: "survival",
+          name: "Survival",
+          members: [
+            { name: "TLine", role: "Owner", discord: "tline#0001" },
+            { name: "Nova", role: "Admin", discord: "nova#5555" },
+            { name: "Pine", role: "Moderator", discord: "pine#1234" },
+            { name: "Brick", role: "Builder" },
+          ],
+        },
+        {
+          id: "skyblock",
+          name: "Skyblock",
+          members: [
+            { name: "Aether", role: "Manager", discord: "aether#2222" },
+            { name: "Zephyr", role: "Helper" },
+            { name: "Quartz", role: "Developer", discord: "dev.quartz" },
+          ],
+        },
+        {
+          id: "prison",
+          name: "Prison",
+          members: [
+            { name: "Warden", role: "Owner" },
+            { name: "PickaxePete", role: "Admin" },
+            { name: "Torch", role: "Helper" },
+          ],
+        },
+      ],
+    };
+  </script>
+
+  <!-- ===================== APP LOGIC ===================== -->
+  <script>
+    const serverFilter = document.getElementById('serverFilter');
+    const roleFilter = document.getElementById('roleFilter');
+    const searchInput = document.getElementById('searchInput');
+    const staffGrid = document.getElementById('staffGrid');
+
+    // Build unique list of roles across all servers
+    function getAllRoles() {
+      const roles = new Set();
+      STAFF_DATA.servers.forEach(s => s.members.forEach(m => m.role && roles.add(m.role)));
+      return Array.from(roles).sort();
+    }
+
+    // Populate filters on load
+    function initFilters() {
+      // Server options
+      const allOption = new Option('All servers', 'all');
+      serverFilter.appendChild(allOption);
+      STAFF_DATA.servers.forEach(s => serverFilter.appendChild(new Option(s.name, s.id)));
+
+      // Role options
+      getAllRoles().forEach(r => roleFilter.appendChild(new Option(r, r)));
+
+      // Restore from URL params if present
+      const params = new URLSearchParams(location.search);
+      if (params.has('server')) serverFilter.value = params.get('server');
+      if (params.has('role')) roleFilter.value = params.get('role');
+      if (params.has('q')) searchInput.value = params.get('q');
+    }
+
+    function saveParams() {
+      const params = new URLSearchParams();
+      if (serverFilter.value !== 'all') params.set('server', serverFilter.value);
+      if (roleFilter.value !== 'all') params.set('role', roleFilter.value);
+      if (searchInput.value.trim()) params.set('q', searchInput.value.trim());
+      history.replaceState({}, '', `${location.pathname}?${params.toString()}`);
+    }
+
+    function matchFilters(member, serverId) {
+      const roleOk = roleFilter.value === 'all' || (member.role || '').toLowerCase() === roleFilter.value.toLowerCase();
+      const serverOk = serverFilter.value === 'all' || serverId === serverFilter.value;
+      const q = searchInput.value.trim().toLowerCase();
+      const text = `${member.name} ${(member.role||'')} ${(member.discord||'')}`.toLowerCase();
+      const searchOk = q === '' || text.includes(q);
+      return roleOk && serverOk && searchOk;
+    }
+
+    function roleClass(role){ return `role-${(role||'Staff').replace(/\s+/g,'')}`; }
+
+    function render() {
+      saveParams();
+      staffGrid.innerHTML = '';
+
+      const frag = document.createDocumentFragment();
+      const servers = STAFF_DATA.servers;
+      let count = 0;
+
+      servers.forEach(server => {
+        server.members
+          .filter(m => matchFilters(m, server.id))
+          .sort((a,b)=> (a.role||'').localeCompare(b.role||''))
+          .forEach(member => {
+            count++;
+            const card = document.createElement('article');
+            card.className = 'card bg-white p-4 flex items-center gap-4';
+
+            const avatar = document.createElement('img');
+            avatar.width = 48; avatar.height = 48; avatar.loading = 'lazy';
+            avatar.className = 'rounded-lg shrink-0 border border-slate-200';
+            avatar.alt = `${member.name} avatar`;
+            avatar.src = showSkins ? skinService(member.name) : 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
+
+            const body = document.createElement('div');
+            body.className = 'min-w-0';
+
+            const top = document.createElement('div');
+            top.className = 'flex items-center gap-2 flex-wrap';
+
+            const name = document.createElement('h3');
+            name.className = 'font-semibold text-slate-900 truncate';
+            name.textContent = member.name;
+
+            const role = document.createElement('span');
+            role.className = `text-xs px-2 py-1 rounded-full ${roleClass(member.role)} whitespace-nowrap`;
+            role.textContent = member.role || 'Staff';
+
+            top.append(name, role);
+
+            const meta = document.createElement('div');
+            meta.className = 'text-sm text-slate-600 truncate';
+            meta.textContent = server.name + (member.discord ? ` • ${member.discord}` : '');
+
+            body.append(top, meta);
+
+            const copyBtn = document.createElement('button');
+            copyBtn.className = 'ml-auto rounded-lg px-3 py-2 text-sm bg-slate-900 text-white hover:bg-slate-700 active:scale-[.99]';
+            copyBtn.textContent = 'Copy IGN';
+            copyBtn.title = 'Copy Minecraft username';
+            copyBtn.addEventListener('click', async () => {
+              try { await navigator.clipboard.writeText(member.name); copyBtn.textContent = 'Copied!'; setTimeout(()=>copyBtn.textContent='Copy IGN', 1500);} catch {}
+            });
+
+            card.append(avatar, body, copyBtn);
+            frag.appendChild(card);
+          });
+      });
+
+      if (count === 0) {
+        const empty = document.createElement('div');
+        empty.className = 'text-center text-slate-500 py-10';
+        empty.innerHTML = 'No staff match your filters.';
+        frag.appendChild(empty);
+      }
+
+      staffGrid.appendChild(frag);
+    }
+
+    // Live update on user input
+    serverFilter.addEventListener('change', render);
+    roleFilter.addEventListener('change', render);
+    searchInput.addEventListener('input', () => {
+      // debounce
+      clearTimeout(window.__searchTimer);
+      window.__searchTimer = setTimeout(render, 150);
+    });
+
+    // Init
+    initFilters();
+    render();
+  </script>
+</body>
+</html>
