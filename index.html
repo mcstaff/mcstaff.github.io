@@ -25,13 +25,19 @@
 </head>
 <body class="min-h-screen bg-slate-100 text-slate-800">
   <div class="max-w-7xl mx-auto px-4 py-8">
+
+    <!-- Socials (editable) -->
+    <div id="socials" class="mb-4 text-right space-x-3 text-sm">
+     <p> Want you server on my list? Shoot me a message on <a href="https://discord.com/users/1244399425280020672" target="_blank" class="text-purple-500 underline">Discord</a>! </p>
+    </div>
+
     <header class="mb-6">
       <h1 class="text-3xl md:text-4xl font-bold tracking-tight">Staff Directory</h1>
-      <p class="text-slate-600">List staff members across multiple Minecraft servers. Edit the <code>STAFF_DATA</code> section below to customize.</p>
+      <p class="text-slate-600">List staff members across multiple Minecraft servers.<!-- Edit the <code>STAFF_DATA</code> section below to customize.--></p>
     </header>
 
     <!-- Controls -->
-    <section class="mb-6 grid gap-3 md:grid-cols-3">
+    <section class="mb-6 grid gap-3 md:grid-cols-4">
       <div>
         <label class="block text-sm font-medium mb-1">Server</label>
         <select id="serverFilter" class="w-full rounded-xl border border-slate-300 bg-white px-3 py-2">
@@ -48,6 +54,13 @@
         <label class="block text-sm font-medium mb-1">Search</label>
         <input id="searchInput" type="text" placeholder="Search by name…" class="w-full rounded-xl border border-slate-300 bg-white px-3 py-2" />
       </div>
+      <div>
+        <label class="block text-sm font-medium mb-1">Sort</label>
+        <select id="sortFilter" class="w-full rounded-xl border border-slate-300 bg-white px-3 py-2">
+          <option value="default">Default</option>
+          <option value="az">A → Z</option>
+        </select>
+      </div>
     </section>
 
     <!-- Staff grid -->
@@ -55,7 +68,7 @@
 
     <!-- Footer note -->
     <footer class="mt-10 text-xs text-slate-500">
-      <p>Tip: to add someone, edit the <code>STAFF_DATA</code> object in this file. You can also toggle <code>showSkins</code>.</p>
+    <!--  <p>Tip: to add someone, edit the <code>STAFF_DATA</code> object in this file. You can also toggle <code>showSkins</code>.</p>-->
     </footer>
   </div>
 
@@ -66,15 +79,14 @@
     const skinService = (username) => `https://mc-heads.net/avatar/${encodeURIComponent(username)}/64`;
 
     // --- Your servers and staff live here ---
-    // Add/rename servers, roles, and members. Roles are free-form strings.
     const STAFF_DATA = {
       servers: [
         {
           id: "hypixel",
           name: "Hypixel",
           members: [
-            { name: "hypixel", role: "[OWNER]", discord: "N/A" },
-            { name: "Rezzus", role: "[OWNER]", discord: "N/A" },
+            { name: "hypixel", role: "[ዞ]", discord: "N/A" },
+            { name: "Rezzus", role: "[ዞ]", discord: "N/A" },
             { name: "Jayavarmen", role: "[ዞ]", discord: "N/A" },
             { name: "Judg3", role: "[ዞ]", discord: "Judge#2000" },
             { name: "NotJudg3", role: "[ዞ]", discord: "N/A" },
@@ -137,12 +149,75 @@
           ],
         },
         {
-          id: "prison",
-          name: "Prison",
+          id: "Manacube",
+          name: "Manacube",
           members: [
-            { name: "Warden", role: "Owner" },
-            { name: "PickaxePete", role: "Admin" },
-            { name: "Torch", role: "Helper" },
+            { name: "xDacon", role: "Owner" },
+            { name: "ChocBar", role: "Admin" },
+            { name: "Boomclaw", role: "Manager"},
+            { name: "VenomousLemon", role: "Admin"},
+            { name: "Swrds", role: "Manager"},
+            { name: "Lighthoused", role: "Admin"},
+            { name: "RQCAPTAIN", role: "Admin"},
+            { name: "AlexMl", role: "Admin"},
+            { name: "Dynsalir", role: "Admin"},
+            { name: "Roree", role: "Admin"},
+            { name: "CullanP", role: "Admin"},
+            { name: "ManaCube", role: "Admin"},
+            { name: "Pinguinooo", role: "Admin"},
+            { name: "HebertMC", role: "Admin"},
+            { name: "jzbakos", role: "Admin"},
+            { name: "ChaoticPhoenix7", role: "SrMod"},
+            { name: "Shinxray", role: "SrMod"},
+            { name: "VAL", role: "SrMod"},
+            { name: "Hallowqueen", role: "SrMod"},
+            { name: "gapplegal", role: "SrMod"},
+            { name: "Hayleyx", role: "SrMod"},
+            { name: "JustAthenaxD", role: "SrMod"},
+            { name: "EvanTech", role: "SrMod"},
+            { name: "CheesyPeanutXL", role: "SrMod"},
+            { name: "terryZ_", role: "SrMod"},
+            { name: "baroompsycho", role: "SrMod"},
+            { name: "Kade_34", role: "SrMod"},
+            { name: "AlfieJay", role: "Mod+"},
+            { name: "Niels0507", role: "Mod+"},
+            { name: "Oekepoek", role: "Mod+"},
+            { name: "xmmonnii", role: "Mod+"},
+            { name: "Kihta", role: "Mod+"},
+            { name: "Panduuuu", role: "Mod+"},
+            { name: "AmFloofPanda", role: "Mod+"},
+            { name: "Ambibug", role: "Mod"},
+            { name: "Lukasaurus", role: "Mod"},
+            { name: "frsz", role: "Mod"},
+            { name: "Jibjablog", role: "Mod"},
+            { name: "kmanrt", role: "Mod"},
+            { name: "SaraRella", role: "Mod"},
+            { name: "FireRocket33", role: "Mod"},
+            { name: "Nikkobee", role: "Mod"},
+            { name: "HappyHippoEaters", role: "Mod"},
+            { name: "Brinaa", role: "Mod"},
+            { name: "SapphireCave459", role: "Mod"},
+            { name: "PretzelAngel", role: "Mod"},
+            { name: "MarcusPaul", role: "Mod"},
+            { name: "Ara_Olla", role: "Mod"},
+            { name: "liolet", role: "Mod"},
+            { name: "pandabees", role: "Mod"},
+            { name: "dduoo", role: "Mod"},
+            { name: "lottielynn", role: "Mod"},
+            { name: "Galaxyy", role: "Mod"},
+            { name: "Wolf_Lover166", role: "Mod"},
+            { name: "DylanB_666", role: "Mod"},
+            { name: "cjfergy", role: "Mod"},
+            { name: "Chibov", role: "Mod"},
+          ],
+        },
+        {
+          id: "Placeholder",
+          name: "Placeholder",
+          members: [
+            { name: "Placeholder1", role: "Owner" },
+            { name: "Placeholder2", role: "Admin" },
+            { name: "Placeholder3", role: "Helper" },
           ],
         },
       ],
@@ -154,30 +229,27 @@
     const serverFilter = document.getElementById('serverFilter');
     const roleFilter = document.getElementById('roleFilter');
     const searchInput = document.getElementById('searchInput');
+    const sortFilter = document.getElementById('sortFilter');
     const staffGrid = document.getElementById('staffGrid');
 
-    // Build unique list of roles across all servers
     function getAllRoles() {
       const roles = new Set();
       STAFF_DATA.servers.forEach(s => s.members.forEach(m => m.role && roles.add(m.role)));
       return Array.from(roles).sort();
     }
 
-    // Populate filters on load
     function initFilters() {
-      // Server options
       const allOption = new Option('All servers', 'all');
       serverFilter.appendChild(allOption);
       STAFF_DATA.servers.forEach(s => serverFilter.appendChild(new Option(s.name, s.id)));
 
-      // Role options
       getAllRoles().forEach(r => roleFilter.appendChild(new Option(r, r)));
 
-      // Restore from URL params if present
       const params = new URLSearchParams(location.search);
       if (params.has('server')) serverFilter.value = params.get('server');
       if (params.has('role')) roleFilter.value = params.get('role');
       if (params.has('q')) searchInput.value = params.get('q');
+      if (params.has('sort')) sortFilter.value = params.get('sort');
     }
 
     function saveParams() {
@@ -185,6 +257,7 @@
       if (serverFilter.value !== 'all') params.set('server', serverFilter.value);
       if (roleFilter.value !== 'all') params.set('role', roleFilter.value);
       if (searchInput.value.trim()) params.set('q', searchInput.value.trim());
+      if (sortFilter.value !== 'default') params.set('sort', sortFilter.value);
       history.replaceState({}, '', `${location.pathname}?${params.toString()}`);
     }
 
@@ -208,53 +281,77 @@
       let count = 0;
 
       servers.forEach(server => {
-        server.members
-          .filter(m => matchFilters(m, server.id))
-          .sort((a,b)=> (a.role||'').localeCompare(b.role||''))
-          .forEach(member => {
-            count++;
-            const card = document.createElement('article');
-            card.className = 'card bg-white p-4 flex items-center gap-4';
+        // InvadedLands link
+        if (server.id === "InvadedLands" && serverFilter.value === "InvadedLands") {
+          const linkNotice = document.createElement("div");
+          linkNotice.className = "col-span-full text-center text-sm text-blue-600 underline mb-2";
+          linkNotice.innerHTML = `For a more Updated List <a href="https://invadedlands.net/staff/" target="_blank" class="font-medium">Click Here</a>`;
+          frag.appendChild(linkNotice);
+        }
 
-            const avatar = document.createElement('img');
-            avatar.width = 48; avatar.height = 48; avatar.loading = 'lazy';
-            avatar.className = 'rounded-lg shrink-0 border border-slate-200';
-            avatar.alt = `${member.name} avatar`;
-            avatar.src = showSkins ? skinService(member.name) : 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
+        // ManaCube link
+        if (server.id === "Manacube" && serverFilter.value === "Manacube") {
+          const linkNotice = document.createElement("div");
+          linkNotice.className = "col-span-full text-center text-sm text-blue-600 underline mb-2";
+          linkNotice.innerHTML = `For a more Updated List <a href="https://manacube.com/staff" target="_blank" class="font-medium">Click Here</a>`;
+          frag.appendChild(linkNotice);
+        }
 
-            const body = document.createElement('div');
-            body.className = 'min-w-0';
+        let members = server.members.filter(m => matchFilters(m, server.id));
 
-            const top = document.createElement('div');
-            top.className = 'flex items-center gap-2 flex-wrap';
+        // Sorting
+        if (sortFilter.value === "az") {
+          members.sort((a,b) => a.name.localeCompare(b.name));
+        }
 
-            const name = document.createElement('h3');
-            name.className = 'font-semibold text-slate-900 truncate';
-            name.textContent = member.name;
+        members.forEach(member => {
+          count++;
+          const card = document.createElement('article');
+          card.className = 'card bg-white p-4 flex items-center gap-4';
 
-            const role = document.createElement('span');
-            role.className = `text-xs px-2 py-1 rounded-full ${roleClass(member.role)} whitespace-nowrap`;
-            role.textContent = member.role || 'Staff';
+          const avatar = document.createElement('img');
+          avatar.width = 48; avatar.height = 48; avatar.loading = 'lazy';
+          avatar.className = 'rounded-lg shrink-0 border border-slate-200';
+          avatar.alt = `${member.name} avatar`;
+          avatar.src = showSkins ? skinService(member.name) : 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
 
-            top.append(name, role);
+          const body = document.createElement('div');
+          body.className = 'min-w-0';
 
-            const meta = document.createElement('div');
-            meta.className = 'text-sm text-slate-600 truncate';
-            meta.textContent = server.name + (member.discord ? ` • ${member.discord}` : '');
+          const top = document.createElement('div');
+          top.className = 'flex items-center gap-2 flex-wrap';
 
-            body.append(top, meta);
+          const name = document.createElement('h3');
+          name.className = 'font-semibold text-slate-900 truncate';
+          name.textContent = member.name;
 
-            const copyBtn = document.createElement('button');
-            copyBtn.className = 'ml-auto rounded-lg px-3 py-2 text-sm bg-slate-900 text-white hover:bg-slate-700 active:scale-[.99]';
-            copyBtn.textContent = 'Copy IGN';
-            copyBtn.title = 'Copy Minecraft username';
-            copyBtn.addEventListener('click', async () => {
-              try { await navigator.clipboard.writeText(member.name); copyBtn.textContent = 'Copied!'; setTimeout(()=>copyBtn.textContent='Copy IGN', 1500);} catch {}
-            });
+          const role = document.createElement('span');
+          role.className = `text-xs px-2 py-1 rounded-full ${roleClass(member.role)} whitespace-nowrap`;
+          role.textContent = member.role || 'Staff';
 
-            card.append(avatar, body, copyBtn);
-            frag.appendChild(card);
+          top.append(name, role);
+
+          const meta = document.createElement('div');
+          meta.className = 'text-sm text-slate-600 truncate';
+          meta.textContent = server.name + (member.discord ? ` • ${member.discord}` : '');
+
+          body.append(top, meta);
+
+          const copyBtn = document.createElement('button');
+          copyBtn.className = 'ml-auto rounded-lg px-3 py-2 text-sm bg-slate-900 text-white hover:bg-slate-700 active:scale-[.99]';
+          copyBtn.textContent = 'Copy IGN';
+          copyBtn.title = 'Copy Minecraft username';
+          copyBtn.addEventListener('click', async () => {
+            try { 
+              await navigator.clipboard.writeText(member.name); 
+              copyBtn.textContent = 'Copied!'; 
+              setTimeout(()=>copyBtn.textContent='Copy IGN', 1500);
+            } catch {}
           });
+
+          card.append(avatar, body, copyBtn);
+          frag.appendChild(card);
+        });
       });
 
       if (count === 0) {
@@ -267,16 +364,14 @@
       staffGrid.appendChild(frag);
     }
 
-    // Live update on user input
     serverFilter.addEventListener('change', render);
     roleFilter.addEventListener('change', render);
+    sortFilter.addEventListener('change', render);
     searchInput.addEventListener('input', () => {
-      // debounce
       clearTimeout(window.__searchTimer);
       window.__searchTimer = setTimeout(render, 150);
     });
 
-    // Init
     initFilters();
     render();
   </script>
