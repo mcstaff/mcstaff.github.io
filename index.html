@@ -282,6 +282,14 @@
       let count = 0;
 
       servers.forEach(server => {
+        // Hypixel link
+        if (server.id === "InvadedLands" && serverFilter.value === "InvadedLands") {
+          const linkNotice = document.createElement("div");
+          linkNotice.className = "col-span-full text-center text-sm text-blue-600 underline mb-2";
+          linkNotice.innerHTML = `This list might not always be accurate because Hypixel doesn't provide an official staff list. So if you see a staff member who is not on the list, shoot me a DM <a href="https://discord.com/users/1244399425280020672" target="_blank" class="font-medium">here!</a>`;
+          frag.appendChild(linkNotice);
+        }
+
         // InvadedLands link
         if (server.id === "InvadedLands" && serverFilter.value === "InvadedLands") {
           const linkNotice = document.createElement("div");
